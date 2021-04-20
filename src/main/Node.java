@@ -1,5 +1,9 @@
 package main;
 
+import java.util.ArrayList;
+import java.util.List;
+
+// TODO: class Node generalization
 public class Node{
     Node left, right;
     int value;
@@ -36,6 +40,13 @@ public class Node{
         this.value = value;
         this.left = left;
         this.right = right;
+    }
+
+    public static List<Node> createNodes(int[] arr){
+        List<Node> list = new ArrayList<>();
+        for(int n: arr)
+            list.add(new Node(n));
+        return list;
     }
 
     @Override

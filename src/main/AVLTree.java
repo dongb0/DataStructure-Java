@@ -42,14 +42,15 @@ public class AVLTree extends GenericBinaryTree {
             }
         }
         AVLNode rotateRoot = null;
+        if(imbalancedNode != null && getBalance(imbalancedNode.left) < 0) // LR
+            imbalancedNode.left = rotateRight(imbalancedNode.left);
+        else if(imbalancedNode != null && getBalance(imbalancedNode.right) > 0) // RL
+            imbalancedNode.right = rotateLeft(imbalancedNode.right);
+
         if(imbalancedNode != null && getBalance(imbalancedNode.left) > 0) // LL
             rotateRoot = rotateLeft(imbalancedNode);
-        if(imbalancedNode != null && getBalance(imbalancedNode.left) < 0) // LR
-            ; //
-        if(imbalancedNode != null && getBalance(imbalancedNode.right) < 0) // RR
-            ; //
-        if(imbalancedNode != null && getBalance(imbalancedNode.right) > 0) // RL
-            ; //
+        else if(imbalancedNode != null && getBalance(imbalancedNode.right) < 0) // RR
+            rotateRoot = rotateRight(imbalancedNode);
 
         if(imbalancedNode != null) {
             if(!insertPath.isEmpty()){
@@ -64,7 +65,9 @@ public class AVLTree extends GenericBinaryTree {
                     tmpPre.height = 1 + Math.max(getHeight(tmpPre.left), getHeight(tmpPre.right));
                 }
             }
-            else root = rotateRoot;
+            else{
+                root = rotateRoot;
+            }
         }
     }
 
@@ -78,15 +81,17 @@ public class AVLTree extends GenericBinaryTree {
         AVLNode child = cur.left, grandson = cur.left.left;
         cur.left = child.right;
         child.right = cur;
-
         cur.height = 1 + Math.max(getHeight(cur.left), getHeight(cur.right));
+        child.height = 1 + Math.max(getHeight(child.left), getHeight(child.right));
         return child;
     }
 
     private AVLNode rotateRight(AVLNode cur){
         AVLNode child = cur.right;
-
-        //TODO
+        cur.right = child.left;
+        child.left = cur;
+        cur.height = 1 + Math.max(getHeight(cur.left), getHeight(cur.right));
+        child.height = 1 + Math.max(getHeight(child.left), getHeight(child.right));
         return child;
     }
 
@@ -115,7 +120,7 @@ public class AVLTree extends GenericBinaryTree {
 
 
 class AVLNode {
-    protected int height, value;
+    protected int value, height;
     protected AVLNode left, right;
 
     public AVLNode() {
@@ -125,11 +130,12 @@ class AVLNode {
         this.value = value;
     }
 
+
     @Override
     public String toString() {
         return "AVLNode{" +
-                "height=" + height +
-                ", value=" + value +
+                "value=" + value +
+                ", height=" + height +
                 '}';
     }
 }

@@ -5,67 +5,56 @@ import main.Node;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class AVLTreeTest {
 
+    void insert_print(AVLTree avlTree, int val){
+        System.out.println("Insert " + val);
+        avlTree.insert(val);
+        System.out.print("preOrder: ");
+        avlTree.preorder(avlTree.getRoot());
+        System.out.println();
+    }
+
+
     @Test
-    void insert() {
+    void insert_LL() {
         AVLTree avlTree = new AVLTree();
-        int val = 10;
-        System.out.println("Insert " + val);
-        avlTree.insert(val);
-        System.out.print("preOrder: ");
-        avlTree.preorder(avlTree.getRoot());
-        System.out.println();
+        insert_print(avlTree, 10);
+        insert_print(avlTree, 5);
+        insert_print(avlTree, 2);
+        insert_print(avlTree, 0);
+        insert_print(avlTree, -1);
 
-        val = 5;
-        System.out.println("Insert " + val);
-        avlTree.insert(val);
-        System.out.print("preOrder: ");
-        avlTree.preorder(avlTree.getRoot());
-        System.out.println();
+        List<Node> preAns = Node.createNodes(new int[]{5,0,-1,2,10}), inAns = Node.createNodes(new int[]{-1,0,2,5,10});
+        List<Node> preList = avlTree.getPreorder();
+        List<Node> inList = avlTree.getInorder();
+        System.out.println(preAns.get(0) == preList.get(0));
+        assert preAns.equals(preList);
+        assert inList.equals(inAns);
+    }
 
-        val = 2;
-        System.out.println("Insert " + val);
-        avlTree.insert(val);
-        System.out.print("preOrder: ");
-        avlTree.preorder(avlTree.getRoot());
-        System.out.println();
+    @Test
+    void insert_LR(){
+        AVLTree avlTree = new AVLTree();
+        insert_print(avlTree, 20);
+        insert_print(avlTree, 10);
+        insert_print(avlTree, 15);
+        insert_print(avlTree, 18);
+        insert_print(avlTree, 19);
 
-        val = 0;
-        System.out.println("Insert " + val);
-        avlTree.insert(val);
-        System.out.print("preOrder: ");
-        avlTree.preorder(avlTree.getRoot());
-        System.out.println();
-
-        val = -1;
-        System.out.println("Insert " + val);
-        avlTree.insert(val);
-        System.out.print("preOrder: ");
-        avlTree.preorder(avlTree.getRoot());
-        System.out.println();
-
+        List<Node> preList = avlTree.getPreorder();
+        List<Node> inList = avlTree.getInorder();
     }
 
     @Test
     void delete() {
+
     }
 
-    @Test
-    void getHeight(){
-//        AVLTree tree = new AVLTree();
-//        Class<AVLTree> c = AVLTree.class;
-//        try {
-//            Method method = c.getDeclaredMethod("getHeight", Node.class);
-//            method.setAccessible(true);
-////            method.invoke(getHeight(), tree.getRoot());
-//
-//            method.setAccessible(false);
-//        } catch (NoSuchMethodException e) {
-//            e.printStackTrace();
-//        }
-    }
+
 }

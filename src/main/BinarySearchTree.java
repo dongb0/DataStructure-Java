@@ -33,7 +33,7 @@ public class BinarySearchTree extends GenericBinaryTree {
             else if (value > cur.value)
                 cur = cur.right;
         }
-        Node tmp = cur;
+        Node tmp = cur.left;
         while(tmp.right != null){
             tmp = tmp.right;
         }

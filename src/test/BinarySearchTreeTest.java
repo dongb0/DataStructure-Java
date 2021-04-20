@@ -22,7 +22,7 @@ class BinarySearchTreeTest {
     @org.junit.jupiter.api.Test
     void delete() {
         BinarySearchTree bstree = new BinarySearchTree();
-        int[] arr = {1,3,4,65,5,6,7,20};
+        int[] arr = {1,3,4,65,5,6,7,20,70,80};
         for(int i: arr)
             bstree.insert(i);
         bstree.preorderPrint();
