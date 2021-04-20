@@ -21,7 +21,7 @@ class BinarySearchTreeTest {
 
     @org.junit.jupiter.api.Test
     void delete() {
-        BinarySearchTree bstree = new BinarySearchTree();
+        BinarySearchTree<Integer> bstree = new BinarySearchTree<>();
         int[] arr = {1,3,4,65,5,6,7,20};
         for(int i: arr)
             bstree.insert(i);
@@ -35,11 +35,13 @@ class BinarySearchTreeTest {
 
         //TODO
         //assert getInorder sequence == expectation
+
+        printPass("delete() test passed.");
     }
 
     @org.junit.jupiter.api.Test
     void search() {
-        BinarySearchTree bstree = new BinarySearchTree();
+        BinarySearchTree<Integer> bstree = new BinarySearchTree();
         int[] arr = {1,3,4,65,5,6,7,20};
         for(int i: arr)
             bstree.insert(i);
@@ -48,15 +50,16 @@ class BinarySearchTreeTest {
 
         assert bstree.search(3);
         assert !bstree.search(0);
-
-        Node<Integer> target = new Node<>(3);
-//        assert bstree.search(target).getValue() == 3;
-//        assert bstree.search(new Node(80)) == null;
+        printPass("search() test passed.");
     }
 
 
     @Test
     void randomValueTest(){
 
+    }
+
+    void printPass(String str){
+        System.out.println(BinarySearchTree.class + " " + str);
     }
 }

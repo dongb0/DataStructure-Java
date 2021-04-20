@@ -17,7 +17,7 @@ public class BinarySearchTree<T extends Comparable<T>> extends GenericBinaryTree
             else
                 cur = cur.right;
         }
-        if(value.compareTo(pre.value) > 0)
+        if(value.compareTo(pre.value) < 0)
             pre.left = newNode;
         else
             pre.right = newNode;
