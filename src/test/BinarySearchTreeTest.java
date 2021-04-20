@@ -17,6 +17,8 @@ class BinarySearchTreeTest {
         bstree.inorderPrint();
         bstree.BFS();
 
+        //TODO:
+        //assert inorder sequence is ascend order
     }
 
     @org.junit.jupiter.api.Test
@@ -53,6 +55,7 @@ class BinarySearchTreeTest {
         printPass("search() test passed.");
     }
 
+    //TODO: add random test
 
     @Test
     void randomValueTest(){
