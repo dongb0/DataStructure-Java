@@ -14,10 +14,10 @@ public class BinarySearchTree<T extends Comparable<T>> extends GenericBinaryTree
             pre = cur;
             if(value.compareTo(cur.value) < 0)
                 cur = cur.left;
-            else /*if(value > cur.value)*/
+            else
                 cur = cur.right;
         }
-        if(value.compareTo(cur.value) > 0)
+        if(value.compareTo(pre.value) > 0)
             pre.left = newNode;
         else
             pre.right = newNode;
@@ -33,7 +33,8 @@ public class BinarySearchTree<T extends Comparable<T>> extends GenericBinaryTree
             else if (value.compareTo(cur.value) > 0)
                 cur = cur.right;
         }
-        Node tmp = cur;
+        assert cur != null;
+        Node tmp = cur.left;
         while(tmp.right != null){
             tmp = tmp.right;
         }
