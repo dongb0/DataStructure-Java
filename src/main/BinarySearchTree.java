@@ -1,36 +1,36 @@
 package main;
 
-public class BinarySearchTree extends GenericBinaryTree {
+public class BinarySearchTree<T extends Comparable<T>> extends GenericBinaryTree<T> {
 
     @Override
-    public void insert(int value) {
-        Node newNode = new Node(value);
+    public void insert(T value) {
+        Node<T> newNode = new Node<>(value);
         if(root == null){
             root = newNode;
             return ;
         }
-        Node cur = root, pre = null;
+        Node<T> cur = root, pre = null;
         while(cur != null){
             pre = cur;
-            if(value < cur.value)
+            if(value.compareTo(cur.value) < 0)
                 cur = cur.left;
             else /*if(value > cur.value)*/
                 cur = cur.right;
         }
-        if(value < pre.value)
+        if(value.compareTo(cur.value) > 0)
             pre.left = newNode;
         else
             pre.right = newNode;
     }
 
     @Override
-    public void delete(int value) {
-        Node cur = root, pre = root;
+    public void delete(T value) {
+        Node<T> cur = root, pre = root;
         while(cur != null && cur.value != value){
             pre = cur;
-            if(value < cur.value)
+            if(value.compareTo(cur.value) < 0)
                 cur = cur.left;
-            else if (value > cur.value)
+            else if (value.compareTo(cur.value) > 0)
                 cur = cur.right;
         }
         Node tmp = cur;
@@ -44,14 +44,14 @@ public class BinarySearchTree extends GenericBinaryTree {
             pre.right = cur.left;
     }
 
-    public boolean search(int target){
+    public boolean search(T target){
         if(root == null)
             return false;
-        Node cur = root;
+        Node<T> cur = root;
         while(cur != null){
-            if(target < cur.value)
+            if(target.compareTo(cur.value) < 0)
                 cur = cur.left;
-            else if(target > cur.value)
+            else if(target.compareTo(cur.value) > 0)
                 cur = cur.right;
             else
                 return true;
@@ -59,18 +59,18 @@ public class BinarySearchTree extends GenericBinaryTree {
         return false;
     }
 
-    public Node search(Node target){
-        if(root == null || target == null)
-            return null;
-        Node cur = root;
-        while(cur != null){
-            if(target.value < cur.value)
-                cur = cur.left;
-            else if(target.value > cur.value)
-                cur = cur.right;
-            else
-                return cur;
-        }
-        return null;
-    }
+//    public Node<T> search(Node<T> target){
+//        if(root == null || target == null)
+//            return null;
+//        Node<T> cur = root;
+//        while(cur != null){
+//            if(target.compareTo(cur.value) < 0)
+//                cur = cur.left;
+//            else if(target.compareTo(cur.value) > 0)
+//                cur = cur.right;
+//            else
+//                return cur;
+//        }
+//        return null;
+//    }
 }

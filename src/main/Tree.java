@@ -2,15 +2,15 @@ package main;
 
 import java.util.List;
 
-public interface Tree {
+public interface Tree<T extends Comparable<T>> {
 
-    void insert(int value);
-    void delete(int value);
+    void insert(T value);
+    void delete(T value);
     void preorderPrint();
     void inorderPrint();
     void BFS();
     void draw();
     void clear();
-    List<Node> getPreorder();
-    List<Node> getInorder();
+    List<Node<T>> getPreorder();
+    List<Node<T>> getInorder();
 }
