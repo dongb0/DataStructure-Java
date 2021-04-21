@@ -73,6 +73,7 @@ public class BinarySearchTree<T extends Comparable<T>> extends GenericBinaryTree
 //            pre.left = cur.left;
 //        else
 //            pre.right = cur.left;
+        else setNodeSubtree(pre, isLeft, cur.left);
     }
 
     protected void copy_delete(T value){
