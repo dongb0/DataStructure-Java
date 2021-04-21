@@ -38,7 +38,7 @@ public class Node<T extends Comparable<T>> implements Comparable<T>{
 
     @Override
     public int compareTo(T o) {
-        return 0;
+        return this.value.compareTo(o);
     }
 }
 

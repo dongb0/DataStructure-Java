@@ -39,7 +39,9 @@ public class BinarySearchTree<T extends Comparable<T>> extends GenericBinaryTree
             tmp = tmp.right;
         }
         tmp.right = cur.right;
-        if(cur == pre.left)
+        if(cur == root)
+            root = cur.left;
+        else if(cur == pre.left)
             pre.left = cur.left;
         else
             pre.right = cur.left;

@@ -9,7 +9,7 @@ class BinarySearchTreeTest {
     @org.junit.jupiter.api.Test
     void insert1() {
         BinarySearchTree<Integer> bstree = new BinarySearchTree<>();
-        int[] arr = {1,3,4,65,5,6,7,20};
+        int[] arr = {1,3,4,65,5,6,7,20,-10,-5,-9,-14};
         for(int i: arr)
             bstree.insert(i);
 
@@ -17,27 +17,39 @@ class BinarySearchTreeTest {
         bstree.inorderPrint();
         bstree.BFS();
 
-        //TODO:
-        //assert inorder sequence is ascend order
+        List<Node<Integer>> inList = bstree.getInorder();
+        assert TestUtils.isAscend(inList);
+        printPass("insert1() test passed.");
     }
 
     @org.junit.jupiter.api.Test
     void delete() {
         BinarySearchTree<Integer> bstree = new BinarySearchTree<>();
-        int[] arr = {1,3,4,65,5,6,7,20};
+        int[] arr = {1,3,4,65,5,6,7,20,-10,-5,-9,-14};
         for(int i: arr)
             bstree.insert(i);
         bstree.preorderPrint();
         bstree.inorderPrint();
 
-        System.out.println("----------after delete----------");
-        bstree.delete(65);
+        int deleteValue = -10;
+        System.out.printf("----------after delete %d----------\n", deleteValue);
+        bstree.delete(deleteValue);
+        bstree.preorderPrint();
+        bstree.inorderPrint();
+        List<Node<Integer>> inList = bstree.getInorder();
+        assert  TestUtils.isAscend(inList);
+
+        deleteValue = 1;
+        System.out.printf("----------after delete %d----------\n", deleteValue);
+        bstree.delete(deleteValue);
         bstree.preorderPrint();
         bstree.inorderPrint();
 
         //TODO
         //assert getInorder sequence == expectation
 
+        inList = bstree.getInorder();
+        assert  TestUtils.isAscend(inList);
         printPass("delete() test passed.");
     }
 

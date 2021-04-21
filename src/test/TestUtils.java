@@ -1,6 +1,9 @@
 package test;
 
+import main.Node;
+
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 public class TestUtils {
@@ -17,6 +20,14 @@ public class TestUtils {
         for(int i = 0; i < num; i++)
             list[i] = random.nextInt(bound);
         return list;
+    }
+
+    //TODO: isAscend accepts generic type
+    public static boolean isAscend(List<Node<Integer>> l1){
+        for(int i = 1, sz = l1.size(); i < sz; i++)
+            if(l1.get(i - 1).getValue().compareTo(l1.get(i).getValue()) > 0)
+                return false;
+        return true;
     }
 
 }
