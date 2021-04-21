@@ -45,9 +45,15 @@ class BinarySearchTreeTest {
         bstree.preorderPrint();
         bstree.inorderPrint();
 
+
+        System.out.printf("----------after delete 3, -9, 5----------\n");
+        bstree.delete(3);
+        bstree.delete(-9);
+        bstree.delete(5);
         //TODO
         //assert getInorder sequence == expectation
-
+        bstree.preorderPrint();
+        bstree.inorderPrint();
         inList = bstree.getInorder();
         assert  TestUtils.isAscend(inList);
         printPass("delete() test passed.");

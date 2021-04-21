@@ -22,7 +22,7 @@ public class TestUtils {
         return list;
     }
 
-    //TODO: isAscend accepts generic type
+    //TODO: isAscend() accepts generic type
     public static boolean isAscend(List<Node<Integer>> l1){
         for(int i = 1, sz = l1.size(); i < sz; i++)
             if(l1.get(i - 1).getValue().compareTo(l1.get(i).getValue()) > 0)

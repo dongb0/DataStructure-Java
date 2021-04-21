@@ -25,26 +25,76 @@ public class BinarySearchTree<T extends Comparable<T>> extends GenericBinaryTree
 
     @Override
     public void delete(T value) {
-        Node<T> cur = root, pre = root;
+        merge_delete(value);
+    }
+
+    void setNodeSubtree(Node pre, boolean isLeft, Node newPoint){
+        if(isLeft) pre.left = newPoint;
+        else pre.right = newPoint;
+    }
+
+    protected void merge_delete(T value){
+        if(root == null)
+            return ;
+        Node<T> cur = root, pre = new Node<>(value, root, null);
         while(cur != null && cur.value != value){
             pre = cur;
             if(value.compareTo(cur.value) < 0)
                 cur = cur.left;
             else if (value.compareTo(cur.value) > 0)
                 cur = cur.right;
+            else break;
         }
-        assert cur != null;
-        Node tmp = cur.left;
-        while(tmp.right != null){
-            tmp = tmp.right;
+        boolean isLeft = (cur == pre.left);
+        if(cur == null || cur.value != value)
+            return ;
+        if(cur.left == null && cur.right == null){
+            setNodeSubtree(pre, isLeft, null);
+            return ;
         }
-        tmp.right = cur.right;
+
+        if(cur.left == null)
+            setNodeSubtree(pre, isLeft, cur.right);
+//            ;
+        else if(cur.right == null)
+            setNodeSubtree(pre, isLeft, cur.left);
+//            ;
+        else{
+            Node tmp = cur.left;
+            while(tmp.right != null){
+                tmp = tmp.right;
+            }
+            tmp.right = cur.right;
+        }
+
         if(cur == root)
             root = cur.left;
-        else if(cur == pre.left)
-            pre.left = cur.left;
-        else
-            pre.right = cur.left;
+//        else if(cur == pre.left)
+//            pre.left = cur.left;
+//        else
+//            pre.right = cur.left;
+    }
+
+    protected void copy_delete(T value){
+//        Node<T> cur = root, pre = new Node<T>(value, cur, null);
+//        while(cur != null && cur.value != value){
+//            pre = cur;
+//            if(value.compareTo(cur.value) < 0)
+//                cur = cur.left;
+//            else if (value.compareTo(cur.value) > 0)
+//                cur = cur.right;
+//        }
+//        if(cur == null)
+//            return ;
+//        if(cur.left == null && cur.right == null)
+//            pre. = null;
+//        if(cur.left == null)
+//            pre. = cur.right;
+//        else if(cur.right == null)
+//            pre. = cur.left;
+//        else{
+//
+//        }
     }
 
     public boolean search(T target){
@@ -62,18 +112,18 @@ public class BinarySearchTree<T extends Comparable<T>> extends GenericBinaryTree
         return false;
     }
 
-//    public Node<T> search(Node<T> target){
-//        if(root == null || target == null)
-//            return null;
-//        Node<T> cur = root;
-//        while(cur != null){
-//            if(target.compareTo(cur.value) < 0)
-//                cur = cur.left;
-//            else if(target.compareTo(cur.value) > 0)
-//                cur = cur.right;
-//            else
-//                return cur;
-//        }
-//        return null;
-//    }
+    public Node<T> search(Node<T> target){
+        if(root == null || target == null)
+            return null;
+        Node<T> cur = root;
+        while(cur != null){
+            if(target.compareTo(cur.value) < 0)
+                cur = cur.left;
+            else if(target.compareTo(cur.value) > 0)
+                cur = cur.right;
+            else
+                return cur;
+        }
+        return null;
+    }
 }
