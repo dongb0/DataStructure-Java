@@ -1,57 +1,89 @@
 package main;
 
-public class BinarySearchTree extends GenericBinaryTree {
+public class BinarySearchTree<T extends Comparable<T>> extends GenericBinaryTree<T> {
 
     @Override
-    public void insert(int value) {
-        Node newNode = new Node(value);
+    public void insert(T value) {
+        Node<T> newNode = new Node<>(value);
         if(root == null){
             root = newNode;
             return ;
         }
-        Node cur = root, pre = null;
+        Node<T> cur = root, pre = null;
         while(cur != null){
             pre = cur;
-            if(value < cur.value)
+            if(value.compareTo(cur.value) < 0)
                 cur = cur.left;
-            else /*if(value > cur.value)*/
+            else
                 cur = cur.right;
         }
-        if(value < pre.value)
+        if(value.compareTo(pre.value) < 0)
             pre.left = newNode;
         else
             pre.right = newNode;
     }
 
     @Override
-    public void delete(int value) {
-        Node cur = root, pre = root;
-        while(cur != null && cur.value != value){
-            pre = cur;
-            if(value < cur.value)
-                cur = cur.left;
-            else if (value > cur.value)
-                cur = cur.right;
-        }
-        Node tmp = cur.left;
-        while(tmp.right != null){
-            tmp = tmp.right;
-        }
-        tmp.right = cur.right;
-        if(cur == pre.left)
-            pre.left = cur.left;
-        else
-            pre.right = cur.left;
+    public void delete(T value) {
+        merge_delete(value);
     }
 
-    public boolean search(int target){
+    protected void merge_delete(T value){
+        if(root == null)
+            return ;
+        Node<T> cur = root, pre = new Node<>(value, root, null);
+        while(cur != null && cur.value != value){
+            pre = cur;
+            if(value.compareTo(cur.value) < 0)
+                cur = cur.left;
+            else if (value.compareTo(cur.value) > 0)
+                cur = cur.right;
+            else break;
+        }
+
+        if(cur == null || cur.value != value)
+            return ;
+        if(cur.left == null && cur.right == null){
+            deleteNode(pre, cur, null);
+            return ;
+        }
+        if(cur.left == null){
+            deleteNode(pre, cur, cur.right);
+        }
+        else if(cur.right == null)
+            deleteNode(pre, cur, cur.left);
+        else{
+            Node tmp = cur.left;
+            while(tmp.right != null){
+                tmp = tmp.right;
+            }
+            tmp.right = cur.right;
+            deleteNode(pre, cur, cur.left);
+        }
+    }
+
+    void deleteNode(Node pre, Node cur, Node newPoint){
+        if(cur == root)
+            root = (cur.left != null ? cur.left: cur.right);
+        else
+            if(cur == pre.left)
+                pre.left = newPoint;
+            else
+                pre.right = newPoint;
+    }
+
+    protected void copy_delete(T value){
+
+    }
+
+    public boolean search(T target){
         if(root == null)
             return false;
-        Node cur = root;
+        Node<T> cur = root;
         while(cur != null){
-            if(target < cur.value)
+            if(target.compareTo(cur.value) < 0)
                 cur = cur.left;
-            else if(target > cur.value)
+            else if(target.compareTo(cur.value) > 0)
                 cur = cur.right;
             else
                 return true;
@@ -59,14 +91,14 @@ public class BinarySearchTree extends GenericBinaryTree {
         return false;
     }
 
-    public Node search(Node target){
+    public Node<T> search(Node<T> target){
         if(root == null || target == null)
             return null;
-        Node cur = root;
+        Node<T> cur = root;
         while(cur != null){
-            if(target.value < cur.value)
+            if(target.compareTo(cur.value) < 0)
                 cur = cur.left;
-            else if(target.value > cur.value)
+            else if(target.compareTo(cur.value) > 0)
                 cur = cur.right;
             else
                 return cur;

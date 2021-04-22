@@ -2,14 +2,14 @@ package main;
 
 import java.util.Stack;
 
-public class AVLTree extends GenericBinaryTree {
+public class AVLTree /*extends GenericBinaryTree*/ {
     AVLNode root;
 
     public AVLTree(){
 
     }
 
-    @Override
+//    @Override
     public void insert(int value) {
         AVLNode newNode = new AVLNode(value);
         newNode.height = 1;
@@ -71,7 +71,7 @@ public class AVLTree extends GenericBinaryTree {
         }
     }
 
-    @Override
+//    @Override
     public void delete(int value) {
 
     }
