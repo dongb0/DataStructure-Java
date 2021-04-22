@@ -41,33 +41,43 @@ public class AVLTree<T extends Comparable<T>> extends GenericBinaryTree<T> {
                 break;
             }
         }
+
+        if(imbalancedNode == null)
+            return ;
+
         Node rotateRoot = null;
-        if(imbalancedNode != null && getBalance(imbalancedNode.left) < 0) // LR
+        if(getBalance(imbalancedNode.left) < 0) // LR
             imbalancedNode.left = rotateRight(imbalancedNode.left);
-        else if(imbalancedNode != null && getBalance(imbalancedNode.right) > 0) // RL
+        else if(getBalance(imbalancedNode.right) > 0) // RL
             imbalancedNode.right = rotateLeft(imbalancedNode.right);
 
-        if(imbalancedNode != null && getBalance(imbalancedNode.left) > 0) // LL
+        if(getBalance(imbalancedNode.left) > 0) // LL
             rotateRoot = rotateLeft(imbalancedNode);
-        else if(imbalancedNode != null && getBalance(imbalancedNode.right) < 0) // RR
+        else if(getBalance(imbalancedNode.right) < 0) // RR
             rotateRoot = rotateRight(imbalancedNode);
 
-        if(imbalancedNode != null) {
-            if(!insertPath.isEmpty()){
-                Node tmpPre = insertPath.pop();
-                if(imbalancedNode == tmpPre.left)
-                    tmpPre.left = rotateRoot;
-                else tmpPre.right = rotateRoot;
+        if(!insertPath.isEmpty()){
+            Node tmpPre = insertPath.pop();
+            if(imbalancedNode == tmpPre.left)
+                tmpPre.left = rotateRoot;
+            else tmpPre.right = rotateRoot;
+            tmpPre.height = 1 + Math.max(getHeight(tmpPre.left), getHeight(tmpPre.right));
+            while(!insertPath.isEmpty()){
+                tmpPre = insertPath.pop();
                 tmpPre.height = 1 + Math.max(getHeight(tmpPre.left), getHeight(tmpPre.right));
-                while(!insertPath.isEmpty()){
-                    tmpPre = insertPath.pop();
-                    tmpPre.height = 1 + Math.max(getHeight(tmpPre.left), getHeight(tmpPre.right));
-                }
-            }
-            else{
-                root = rotateRoot;
             }
         }
+        else{
+            root = rotateRoot;
+        }
+    }
+
+    private void loop_insert(T value){
+
+    }
+
+    private void recursive_insert(T value){
+
     }
 
 //    @Override
@@ -108,26 +118,6 @@ public class AVLTree<T extends Comparable<T>> extends GenericBinaryTree<T> {
         return root;
     }
 
-    public void preorder(Node cur){
-        if(cur == null) return;
-        System.out.print(cur + " ");
-        preorder(cur.left);
-        preorder(cur.right);
-    }
-
 }
 
-
-//class AVLNode<T extends Comparable<T>> extends Node<T> {
-//    public AVLNode() {
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "AVLNode{" +
-//                "value=" + value +
-//                ", height=" + height +
-//                '}';
-//    }
-//}
 

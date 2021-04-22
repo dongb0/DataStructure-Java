@@ -16,7 +16,7 @@ class AVLTreeTest {
         System.out.println("Insert " + val);
         avlTree.insert(val);
         System.out.print("preOrder: ");
-        avlTree.preorder(avlTree.getRoot());
+        avlTree.preorderPrint();
         System.out.println();
     }
     boolean checkValueEquals(List<Node> ans, List<Node> list){
