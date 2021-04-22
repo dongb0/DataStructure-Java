@@ -19,6 +19,14 @@ class AVLTreeTest {
         avlTree.preorder(avlTree.getRoot());
         System.out.println();
     }
+    boolean checkValueEquals(List<Node> ans, List<Node> list){
+        if(ans.size() != list.size())
+            return false;
+        for(int i = 0, sz = ans.size(); i < sz; i++)
+            if(ans.get(i).getValue() != list.get(i).getValue())
+                return false;
+        return true;
+    }
 
 
     @Test
@@ -39,14 +47,24 @@ class AVLTreeTest {
         assert checkValueEquals(inAns, inList);
     }
 
-    boolean checkValueEquals(List<Node> ans, List<Node> list){
-        if(ans.size() != list.size())
-            return false;
-        for(int i = 0, sz = ans.size(); i < sz; i++)
-            if(ans.get(i).getValue() != list.get(i).getValue())
-                return false;
-        return true;
+    @Test
+    void insert_RR() {
+        AVLTree avlTree = new AVLTree();
+        insert_print(avlTree, 10);
+        insert_print(avlTree, 15);
+        insert_print(avlTree, 20);
+        insert_print(avlTree, 25);
+        insert_print(avlTree, 30);
+
+        List<Node> preAns = Node.createNodes(new int[]{15, 10, 25, 20, 30}), inAns = Node.createNodes(new int[]{10, 15, 20, 25, 30});
+        List<Node> preList = avlTree.getPreorder();
+        List<Node> inList = avlTree.getInorder();
+        System.out.println("\npreorder list:" + preList);
+        System.out.println("inorder list:" + inList);
+        assert checkValueEquals(preAns, preList);
+        assert checkValueEquals(inAns, inList);
     }
+
 
     @Test
     void insert_LR(){
@@ -57,8 +75,31 @@ class AVLTreeTest {
         insert_print(avlTree, 18);
         insert_print(avlTree, 19);
 
-//        List<Node> preList = avlTree.getPreorder();
-//        List<Node> inList = avlTree.getInorder();
+        List<Node> preAns = Node.createNodes(new int[]{15,10,19,18,20}), inAns = Node.createNodes(new int[]{10,15,18,19,20});
+        List<Node> preList = avlTree.getPreorder();
+        List<Node> inList = avlTree.getInorder();
+        System.out.println("\npreorder list:" + preList);
+        System.out.println("inorder list:" + inList);
+        assert checkValueEquals(preAns, preList);
+        assert checkValueEquals(inAns, inList);
+    }
+
+    @Test
+    void insert_RL(){
+        AVLTree avlTree = new AVLTree();
+        insert_print(avlTree, 5);
+        insert_print(avlTree, 15);
+        insert_print(avlTree, 10);
+        insert_print(avlTree, 20);
+        insert_print(avlTree, 18);
+
+        List<Node> preAns = Node.createNodes(new int[]{10, 5, 18, 15, 20}), inAns = Node.createNodes(new int[]{5, 10, 15, 18, 20});
+        List<Node> preList = avlTree.getPreorder();
+        List<Node> inList = avlTree.getInorder();
+        System.out.println("\npreorder list:" + preList);
+        System.out.println("inorder list:" + inList);
+        assert checkValueEquals(preAns, preList);
+        assert checkValueEquals(inAns, inList);
     }
 
     @Test

@@ -3,7 +3,6 @@ package main;
 import java.util.Stack;
 
 public class AVLTree<T extends Comparable<T>> extends GenericBinaryTree<T> {
-//    Node<T> root;
 
     public AVLTree(){
 
@@ -11,6 +10,7 @@ public class AVLTree<T extends Comparable<T>> extends GenericBinaryTree<T> {
 
     @Override
     public void insert(T value) {
+        size++;
         Node<T> newNode = new Node(value);
         newNode.height = 1;
         if(root == null){

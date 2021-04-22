@@ -58,6 +58,7 @@ public class GenericBinaryTree<T extends Comparable<T>> implements Tree<T>{
     public void clear() {
         //rubbish collector does its job?
         root = null;
+        size = 0;
     }
 
     @Override

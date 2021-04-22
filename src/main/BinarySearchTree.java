@@ -4,6 +4,7 @@ public class BinarySearchTree<T extends Comparable<T>> extends GenericBinaryTree
 
     @Override
     public void insert(T value) {
+        size++;
         Node<T> newNode = new Node<>(value);
         if(root == null){
             root = newNode;
