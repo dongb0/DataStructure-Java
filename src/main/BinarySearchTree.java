@@ -25,6 +25,10 @@ public class BinarySearchTree<T extends Comparable<T>> extends GenericBinaryTree
 
     @Override
     public void delete(T value) {
+        merge_delete(value);
+    }
+
+    protected void merge_delete(T value){
         Node<T> cur = root, pre = root;
         while(cur != null && cur.value != value){
             pre = cur;
@@ -34,17 +38,25 @@ public class BinarySearchTree<T extends Comparable<T>> extends GenericBinaryTree
                 cur = cur.right;
         }
         assert cur != null;
-        Node tmp = cur.left;
-        while(tmp.right != null){
-            tmp = tmp.right;
+        if(cur.left == null || cur.right == null)
+            ;
+        else {
+            Node tmp = cur.left;
+            while(tmp.right != null){
+                tmp = tmp.right;
+            }
+            tmp.right = cur.right;
         }
-        tmp.right = cur.right;
         if(cur == root)
             root = cur.left;
         else if(cur == pre.left)
             pre.left = cur.left;
         else
             pre.right = cur.left;
+    }
+
+    protected void copy_delete(T value){
+
     }
 
     public boolean search(T target){
@@ -62,18 +74,18 @@ public class BinarySearchTree<T extends Comparable<T>> extends GenericBinaryTree
         return false;
     }
 
-//    public Node<T> search(Node<T> target){
-//        if(root == null || target == null)
-//            return null;
-//        Node<T> cur = root;
-//        while(cur != null){
-//            if(target.compareTo(cur.value) < 0)
-//                cur = cur.left;
-//            else if(target.compareTo(cur.value) > 0)
-//                cur = cur.right;
-//            else
-//                return cur;
-//        }
-//        return null;
-//    }
+    public Node<T> search(Node<T> target){
+        if(root == null || target == null)
+            return null;
+        Node<T> cur = root;
+        while(cur != null){
+            if(target.compareTo(cur.value) < 0)
+                cur = cur.left;
+            else if(target.compareTo(cur.value) > 0)
+                cur = cur.right;
+            else
+                return cur;
+        }
+        return null;
+    }
 }

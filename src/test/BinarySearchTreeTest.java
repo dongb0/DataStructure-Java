@@ -45,8 +45,10 @@ class BinarySearchTreeTest {
         bstree.preorderPrint();
         bstree.inorderPrint();
 
-        //TODO
-        //assert getInorder sequence == expectation
+        bstree.delete(3);
+        bstree.delete(20);
+        bstree.delete(6);
+        bstree.delete(65);
 
         inList = bstree.getInorder();
         assert  TestUtils.isAscend(inList);
