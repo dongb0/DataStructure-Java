@@ -30,24 +30,17 @@ public class BinarySearchTree<T extends Comparable<T>> extends GenericBinaryTree
     }
 
     protected void merge_delete(T value){
-        if(root == null)
-            return ;
         Node<T> cur = root, pre = new Node<>(value, root, null);
         while(cur != null && cur.value != value){
             pre = cur;
             if(value.compareTo(cur.value) < 0)
                 cur = cur.left;
-            else if (value.compareTo(cur.value) > 0)
+            else
                 cur = cur.right;
-            else break;
         }
 
-        if(cur == null || cur.value != value)
+        if(cur == null)
             return ;
-        if(cur.left == null && cur.right == null){
-            deleteNode(pre, cur, null);
-            return ;
-        }
         if(cur.left == null){
             deleteNode(pre, cur, cur.right);
         }
