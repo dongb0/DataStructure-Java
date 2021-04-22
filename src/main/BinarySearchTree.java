@@ -28,11 +28,6 @@ public class BinarySearchTree<T extends Comparable<T>> extends GenericBinaryTree
         merge_delete(value);
     }
 
-    void setNodeSubtree(Node pre, boolean isLeft, Node newPoint){
-        if(isLeft) pre.left = newPoint;
-        else pre.right = newPoint;
-    }
-
     protected void merge_delete(T value){
         if(root == null)
             return ;
@@ -45,36 +40,39 @@ public class BinarySearchTree<T extends Comparable<T>> extends GenericBinaryTree
                 cur = cur.right;
             else break;
         }
-        boolean isLeft = (cur == pre.left);
+
         if(cur == null || cur.value != value)
             return ;
         if(cur.left == null && cur.right == null){
-            setNodeSubtree(pre, isLeft, null);
+            deleteNode(pre, cur, null);
             return ;
         }
 
-        if(cur.left == null)
-            setNodeSubtree(pre, isLeft, cur.right);
-//            ;
+        if(cur.left == null){
+            deleteNode(pre, cur, cur.right);
+        }
         else if(cur.right == null)
-            setNodeSubtree(pre, isLeft, cur.left);
-//            ;
+            deleteNode(pre, cur, cur.left);
         else{
             Node tmp = cur.left;
             while(tmp.right != null){
                 tmp = tmp.right;
             }
             tmp.right = cur.right;
+            deleteNode(pre, cur, cur.left);
         }
-
-        if(cur == root)
-            root = cur.left;
-//        else if(cur == pre.left)
-//            pre.left = cur.left;
-//        else
-//            pre.right = cur.left;
-        else setNodeSubtree(pre, isLeft, cur.left);
     }
+
+    void deleteNode(Node pre, Node cur, Node newPoint){
+        if(cur == root)
+            root = (cur.left != null ? cur.left: cur.right);
+        else
+            if(cur == pre.left)
+                pre.left = newPoint;
+            else
+                pre.right = newPoint;
+    }
+
 
     protected void copy_delete(T value){
 //        Node<T> cur = root, pre = new Node<T>(value, cur, null);

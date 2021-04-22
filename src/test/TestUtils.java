@@ -2,6 +2,7 @@ package test;
 
 import main.Node;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -13,12 +14,21 @@ public class TestUtils {
     public static int[] getRandInts(int num){
         return getRandInts(num, Integer.MAX_VALUE);
     }
+    public static List<Integer> getRandIntegers(int num) { return getRandIntegers(num, Integer.MAX_VALUE); }
 
     public static int[] getRandInts(int num, int bound){
         int[] list = new int[num];
         random.setSeed(new Date().getTime());
         for(int i = 0; i < num; i++)
             list[i] = random.nextInt(bound);
+        return list;
+    }
+
+    public static List<Integer> getRandIntegers(int num, int bound){
+        List<Integer> list = new ArrayList<>(num);
+        random.setSeed(new Date().getTime());
+        for(int i = 0; i < num; i++)
+            list.add(random.nextInt(bound));
         return list;
     }
 
