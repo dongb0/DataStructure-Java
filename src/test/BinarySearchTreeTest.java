@@ -7,6 +7,15 @@ import java.util.*;
 
 class BinarySearchTreeTest {
 
+    void printPass(String str){
+        System.out.println(BinarySearchTree.class + " " + str);
+    }
+    void checkBinaryTreeRule(GenericBinaryTree<Integer> tree, int expectedSize){
+        List<Node<Integer>> inList = tree.getInorder();
+        assert inList.size() == expectedSize: String.format("expected len=%d, got %d", expectedSize, inList.size());
+        assert TestUtils.isAscend(inList);
+    }
+
     @org.junit.jupiter.api.Test
     void insert1() {
         BinarySearchTree<Integer> bstree = new BinarySearchTree<>();
@@ -38,20 +47,16 @@ class BinarySearchTreeTest {
         bstree.delete(deleteValue);
         bstree.preorderPrint();
         bstree.inorderPrint();
-        List<Node<Integer>> inList = bstree.getInorder();
         len--;
-        assert TestUtils.isAscend(inList);
-        assert inList.size() == len : String.format("expected len=%d, got %d", len, inList.size());
+        checkBinaryTreeRule(bstree, len);
 
         deleteValue = 1;
         System.out.printf("----------after delete %d----------\n", deleteValue);
         bstree.delete(deleteValue);
         bstree.preorderPrint();
         bstree.inorderPrint();
-        inList = bstree.getInorder();
         len--;
-        assert TestUtils.isAscend(inList);
-        assert inList.size() == len : String.format("expected len=%d, got %d", len, inList.size());
+        checkBinaryTreeRule(bstree, len);
 
         System.out.printf("----------after delete 3, -9, 5----------\n");
         bstree.delete(3);
@@ -61,14 +66,12 @@ class BinarySearchTreeTest {
         //delete non-existing value
         bstree.delete(5);
         bstree.delete(30);
-        //TODO
-        //assert getInorder sequence == expectation
+
+        //TODO: assert getInorder sequence == expectation
         bstree.preorderPrint();
         bstree.inorderPrint();
-        inList = bstree.getInorder();
         len -= 3;
-        assert TestUtils.isAscend(inList);
-        assert inList.size() == len : String.format("expected len=%d, got %d", len, inList.size());
+        checkBinaryTreeRule(bstree, len);
         printPass("delete() test passed.");
     }
 
@@ -89,8 +92,7 @@ class BinarySearchTreeTest {
         bstree.inorderPrint();
         List<Node<Integer>> inList = bstree.getInorder();
         len--;
-        assert TestUtils.isAscend(inList);
-        assert inList.size() == len : String.format("expected len=%d, got %d", len, inList.size());
+        checkBinaryTreeRule(bstree, len);
 
         deleteValue = 3;
         System.out.printf("----------after delete %d----------\n", deleteValue);
@@ -99,8 +101,7 @@ class BinarySearchTreeTest {
         bstree.inorderPrint();
         inList = bstree.getInorder();
         len--;
-        assert TestUtils.isAscend(inList);
-        assert inList.size() == len : String.format("expected len=%d, got %d", len, inList.size());
+        checkBinaryTreeRule(bstree, len);
 
         bstree.delete(5);
         bstree.delete(7);
@@ -109,6 +110,7 @@ class BinarySearchTreeTest {
         bstree.preorderPrint();
         bstree.inorderPrint();
         assert bstree.getInorder().isEmpty();
+        printPass("delete_right() test passed.");
     }
 
     @org.junit.jupiter.api.Test
@@ -148,13 +150,4 @@ class BinarySearchTreeTest {
         printPass("random_value_delete test passed.");
     }
 
-    void checkBinaryTreeRule(GenericBinaryTree<Integer> tree, int expectedSize){
-        List<Node<Integer>> inList = tree.getInorder();
-        assert inList.size() == expectedSize: String.format("expected len=%d, got %d", expectedSize, inList.size());
-        assert TestUtils.isAscend(inList);
-    }
-
-    void printPass(String str){
-        System.out.println(BinarySearchTree.class + " " + str);
-    }
 }
