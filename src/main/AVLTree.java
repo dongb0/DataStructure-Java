@@ -2,46 +2,46 @@ package main;
 
 import java.util.Stack;
 
-public class AVLTree /*extends GenericBinaryTree*/ {
-    AVLNode root;
+public class AVLTree<T extends Comparable<T>> extends GenericBinaryTree<T> {
+//    Node<T> root;
 
     public AVLTree(){
 
     }
 
-//    @Override
-    public void insert(int value) {
-        AVLNode newNode = new AVLNode(value);
+    @Override
+    public void insert(T value) {
+        Node<T> newNode = new Node(value);
         newNode.height = 1;
         if(root == null){
             root = newNode;
             return;
         }
-        AVLNode cur = root, pre = null;
-        Stack<AVLNode> insertPath = new Stack<>();
+        Node<T> cur = root, pre = null;
+        Stack<Node> insertPath = new Stack<>();
         while(cur != null){
             pre = cur;
             insertPath.add(cur);
             cur.height++;   //update height
-            if(value < cur.value)
+            if(value.compareTo(cur.value) < 0)
                 cur = cur.left;
             else
                 cur = cur.right;
         }
-        if(value < pre.value)
+        if(value.compareTo(pre.value) < 0)
             pre.left = newNode;
         else
             pre.right = newNode;
 
-        AVLNode imbalancedNode = null;
+        Node imbalancedNode = null;
         while(!insertPath.isEmpty()){
-            AVLNode node = insertPath.pop();
+            Node node = insertPath.pop();
             if(Math.abs(getBalance(node)) > 1){
                 imbalancedNode = node;
                 break;
             }
         }
-        AVLNode rotateRoot = null;
+        Node rotateRoot = null;
         if(imbalancedNode != null && getBalance(imbalancedNode.left) < 0) // LR
             imbalancedNode.left = rotateRight(imbalancedNode.left);
         else if(imbalancedNode != null && getBalance(imbalancedNode.right) > 0) // RL
@@ -54,13 +54,12 @@ public class AVLTree /*extends GenericBinaryTree*/ {
 
         if(imbalancedNode != null) {
             if(!insertPath.isEmpty()){
-                AVLNode tmpPre = insertPath.pop(), tmpCur = rotateRoot;
+                Node tmpPre = insertPath.pop();
                 if(imbalancedNode == tmpPre.left)
                     tmpPre.left = rotateRoot;
                 else tmpPre.right = rotateRoot;
                 tmpPre.height = 1 + Math.max(getHeight(tmpPre.left), getHeight(tmpPre.right));
                 while(!insertPath.isEmpty()){
-//                    tmpCur = tmpPre;
                     tmpPre = insertPath.pop();
                     tmpPre.height = 1 + Math.max(getHeight(tmpPre.left), getHeight(tmpPre.right));
                 }
@@ -77,8 +76,8 @@ public class AVLTree /*extends GenericBinaryTree*/ {
     }
 
 
-    private AVLNode rotateLeft(AVLNode cur){
-        AVLNode child = cur.left, grandson = cur.left.left;
+    private Node rotateLeft(Node cur){
+        Node child = cur.left;
         cur.left = child.right;
         child.right = cur;
         cur.height = 1 + Math.max(getHeight(cur.left), getHeight(cur.right));
@@ -86,8 +85,8 @@ public class AVLTree /*extends GenericBinaryTree*/ {
         return child;
     }
 
-    private AVLNode rotateRight(AVLNode cur){
-        AVLNode child = cur.right;
+    private Node rotateRight(Node cur){
+        Node child = cur.right;
         cur.right = child.left;
         child.left = cur;
         cur.height = 1 + Math.max(getHeight(cur.left), getHeight(cur.right));
@@ -95,21 +94,21 @@ public class AVLTree /*extends GenericBinaryTree*/ {
         return child;
     }
 
-    private int getHeight(AVLNode cur){
+    private int getHeight(Node cur){
         return cur != null ? cur.height: 0;
     }
 
-    private int getBalance(AVLNode cur){
+    private int getBalance(Node cur){
         if(cur == null)
             return 0;
         return getHeight(cur.left) - getHeight(cur.right);
     }
 
-    public AVLNode getRoot() {
+    public Node getRoot() {
         return root;
     }
 
-    public void preorder(AVLNode cur){
+    public void preorder(Node cur){
         if(cur == null) return;
         System.out.print(cur + " ");
         preorder(cur.left);
@@ -119,24 +118,16 @@ public class AVLTree /*extends GenericBinaryTree*/ {
 }
 
 
-class AVLNode {
-    protected int value, height;
-    protected AVLNode left, right;
-
-    public AVLNode() {
-    }
-
-    public AVLNode(int value) {
-        this.value = value;
-    }
-
-
-    @Override
-    public String toString() {
-        return "AVLNode{" +
-                "value=" + value +
-                ", height=" + height +
-                '}';
-    }
-}
+//class AVLNode<T extends Comparable<T>> extends Node<T> {
+//    public AVLNode() {
+//    }
+//
+//    @Override
+//    public String toString() {
+//        return "AVLNode{" +
+//                "value=" + value +
+//                ", height=" + height +
+//                '}';
+//    }
+//}
 

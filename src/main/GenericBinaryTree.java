@@ -4,6 +4,7 @@ import java.util.*;
 
 public class GenericBinaryTree<T extends Comparable<T>> implements Tree<T>{
     Node<T> root;
+    int size;
 
     @Override
     public void insert(T value) {
@@ -66,7 +67,7 @@ public class GenericBinaryTree<T extends Comparable<T>> implements Tree<T>{
         Node<T> cur = root;
         while(cur != null || !stack.isEmpty()){
             if(cur != null){
-                list.add(new Node<T>(cur.value));
+                list.add(new Node<T>(cur.value, cur.height));
                 stack.add(cur.right);
                 cur = cur.left;
             }
@@ -89,7 +90,7 @@ public class GenericBinaryTree<T extends Comparable<T>> implements Tree<T>{
             }
             else{
                 cur = stack.pop();
-                list.add(new Node<>(cur.value));
+                list.add(new Node<>(cur.value, cur.height));
                 cur = cur.right;
             }
         }

@@ -6,6 +6,7 @@ import java.util.List;
 public class Node<T extends Comparable<T>> implements Comparable<T>{
     protected Node<T> left, right;
     protected T value;
+    protected int height;
 
     public Node(){}
     public Node(T value){ this.value = value;}
@@ -13,6 +14,11 @@ public class Node<T extends Comparable<T>> implements Comparable<T>{
         this.left = left;
         this.right = right;
         this.value = value;
+    }
+
+    public Node(T value, int height) {
+        this.value = value;
+        this.height = height;
     }
 
     public Node<T> getLeft() {
@@ -50,53 +56,12 @@ public class Node<T extends Comparable<T>> implements Comparable<T>{
     public int compareTo(T o) {
         return this.value.compareTo(o);
     }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "value=" + value +
+                ", height=" + height +
+                '}';
+    }
 }
-
-
-//public class Node{
-//    Node left, right;
-//    int value;
-//
-//    public Node getLeft() {
-//        return left;
-//    }
-//
-//    public void setLeft(Node left) {
-//        this.left = left;
-//    }
-//
-//    public Node getRight() {
-//        return right;
-//    }
-//
-//    public void setRight(Node right) {
-//        this.right = right;
-//    }
-//
-//    public int getValue() {
-//        return value;
-//    }
-//
-//    public void setValue(int value) {
-//        this.value = value;
-//    }
-//
-//    public Node(){}
-//    public Node(int value) {
-//        this.value = value;
-//    }
-//    public Node(int value, Node left, Node right){
-//        this.value = value;
-//        this.left = left;
-//        this.right = right;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "Node{" +
-//                "left=" + left +
-//                ", right=" + right +
-//                ", value=" + value +
-//                '}';
-//    }
-//}
