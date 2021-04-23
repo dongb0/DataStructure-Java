@@ -33,6 +33,7 @@ public class AVLTree<T extends Comparable<T>> extends BinarySearchTree<T> {
         else
             pre.right = newNode;
 
+        // update nodes' height along path
         Stack<Node> path = new Stack<>();
         path.addAll(insertPath);
         if(!insertPath.isEmpty()){
@@ -139,16 +140,17 @@ public class AVLTree<T extends Comparable<T>> extends BinarySearchTree<T> {
         Node<T> rotateRoot = null;
         while(!path.isEmpty()){
             cur = path.pop();
-            if(Math.abs(getBalance(cur)) > 1)
+            if(Math.abs(getBalance(cur)) > 1){
                 rotateRoot = rebalance(cur);
-            if(!path.isEmpty()){
-                if(cur == path.peek().left)
-                    path.peek().left = rotateRoot;
-                else
-                    path.peek().right = rotateRoot;
-            }
-            else{
-                root = rotateRoot;
+                if(!path.isEmpty()){
+                    if(cur == path.peek().left)
+                        path.peek().left = rotateRoot;
+                    else
+                        path.peek().right = rotateRoot;
+                }
+                else{
+                    root = rotateRoot;
+                }
             }
         }
     }

@@ -160,6 +160,12 @@ class AVLTreeTest {
         avlTree.delete(value);
         avlTree.preorderPrint();
         avlTree.inorderPrint();
+
+        value = 20;
+        System.out.printf("----------delete %d----------\n", value);
+        avlTree.delete(value);
+        avlTree.preorderPrint();
+        avlTree.inorderPrint();
     }
 
 
