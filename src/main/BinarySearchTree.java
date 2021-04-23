@@ -26,7 +26,8 @@ public class BinarySearchTree<T extends Comparable<T>> extends GenericBinaryTree
 
     @Override
     public void delete(T value) {
-        merge_delete(value);
+//        merge_delete(value);
+        copy_delete(value);
     }
 
     protected void merge_delete(T value){
@@ -67,7 +68,33 @@ public class BinarySearchTree<T extends Comparable<T>> extends GenericBinaryTree
     }
 
     protected void copy_delete(T value){
-
+        Node<T> cur = root, pre = null;
+        while(cur != null && cur.value.compareTo(value) != 0){
+            pre = cur;
+            if(value.compareTo(cur.value) < 0)
+                cur = cur.left;
+            else cur = cur.right;
+        }
+        if(cur == null)
+            return ;
+        if(cur.left == null)
+            deleteNode(pre, cur, cur.right);
+        else if(cur.right == null)
+            deleteNode(pre, cur, cur.left);
+        else{
+            Node<T> successor = cur.right, last = cur;
+            while(successor.left != null){
+                last = successor;
+                successor = successor.left;
+            }
+            cur.value = successor.value;
+            if(successor == cur.right){
+                last.right = successor.right;
+            }
+            else{
+                last.left = successor.right;
+            }
+        }
     }
 
     public boolean search(T target){
