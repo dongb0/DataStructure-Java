@@ -27,6 +27,22 @@ class AVLTreeTest {
                 return false;
         return true;
     }
+    @Test
+    void insertNotRotate() {
+        int[] arr = {20, 10, 25, 8, 14, 30, 6};
+        AVLTree avlTree = new AVLTree();
+        for(int i: arr)
+            insert_print(avlTree, i);
+
+        List<Node> preAns = Node.createNodes(new int[]{20, 10, 8, 6, 14, 25, 30}), inAns = Node.createNodes(new int[]{6,8,10,14,20,25,30});
+        List<Node> preList = avlTree.getPreorder();
+        List<Node> inList = avlTree.getInorder();
+        System.out.println("\npreorder list:" + preList);
+        System.out.println("inorder list:" + inList);
+        assert checkValueEquals(preAns, preList);
+        assert checkValueEquals(inAns, inList);
+    }
+
 
 
     @Test
@@ -138,6 +154,7 @@ class AVLTreeTest {
         }
         int value = 0;
 
+        System.out.println("\n" + avlTree.getPreorder());
         value = 10;
         System.out.printf("----------delete %d----------\n", value);
         avlTree.delete(value);
