@@ -57,16 +57,6 @@ public class BinarySearchTree<T extends Comparable<T>> extends GenericBinaryTree
         }
     }
 
-    void deleteNode(Node pre, Node cur, Node newPoint){
-        if(cur == root)
-            root = (cur.left != null ? cur.left: cur.right);
-        else
-            if(cur == pre.left)
-                pre.left = newPoint;
-            else
-                pre.right = newPoint;
-    }
-
     protected void copy_delete(T value){
         Node<T> cur = root, pre = null;
         while(cur != null && cur.value.compareTo(value) != 0){
@@ -95,6 +85,16 @@ public class BinarySearchTree<T extends Comparable<T>> extends GenericBinaryTree
                 last.left = successor.right;
             }
         }
+    }
+
+    void deleteNode(Node pre, Node cur, Node newPoint){
+        if(cur == root)
+            root = (cur.left != null ? cur.left: cur.right);
+        else
+        if(cur == pre.left)
+            pre.left = newPoint;
+        else
+            pre.right = newPoint;
     }
 
     public boolean search(T target){

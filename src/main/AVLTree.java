@@ -2,7 +2,7 @@ package main;
 
 import java.util.Stack;
 
-public class AVLTree<T extends Comparable<T>> extends GenericBinaryTree<T> {
+public class AVLTree<T extends Comparable<T>> extends BinarySearchTree<T> {
 
     public AVLTree(){
 
@@ -11,14 +11,14 @@ public class AVLTree<T extends Comparable<T>> extends GenericBinaryTree<T> {
     @Override
     public void insert(T value) {
         size++;
-        Node<T> newNode = new Node(value);
+        Node<T> newNode = new Node(value);  // if out of memory, throws exceptions here
         newNode.height = 1;
         if(root == null){
             root = newNode;
             return;
         }
         Node<T> cur = root, pre = null;
-        Stack<Node> insertPath = new Stack<>();
+        Stack<Node<T>> insertPath = new Stack<>();
         while(cur != null){
             pre = cur;
             insertPath.add(cur);
@@ -33,34 +33,23 @@ public class AVLTree<T extends Comparable<T>> extends GenericBinaryTree<T> {
         else
             pre.right = newNode;
 
-        Node imbalancedNode = null;
+        Node<T> imbalancedNode = null;
         while(!insertPath.isEmpty()){
-            Node node = insertPath.pop();
+            Node<T> node = insertPath.pop();
             if(Math.abs(getBalance(node)) > 1){
                 imbalancedNode = node;
                 break;
             }
         }
-
         if(imbalancedNode == null)
             return ;
-
-        Node rotateRoot = null;
-        if(getBalance(imbalancedNode.left) < 0) // LR
-            imbalancedNode.left = rotateRight(imbalancedNode.left);
-        else if(getBalance(imbalancedNode.right) > 0) // RL
-            imbalancedNode.right = rotateLeft(imbalancedNode.right);
-
-        if(getBalance(imbalancedNode.left) > 0) // LL
-            rotateRoot = rotateLeft(imbalancedNode);
-        else if(getBalance(imbalancedNode.right) < 0) // RR
-            rotateRoot = rotateRight(imbalancedNode);
-
+        Node<T> rotateRoot = rebalance(imbalancedNode);
         if(!insertPath.isEmpty()){
             Node tmpPre = insertPath.pop();
             if(imbalancedNode == tmpPre.left)
                 tmpPre.left = rotateRoot;
-            else tmpPre.right = rotateRoot;
+            else
+                tmpPre.right = rotateRoot;
             tmpPre.height = 1 + Math.max(getHeight(tmpPre.left), getHeight(tmpPre.right));
             while(!insertPath.isEmpty()){
                 tmpPre = insertPath.pop();
@@ -72,6 +61,30 @@ public class AVLTree<T extends Comparable<T>> extends GenericBinaryTree<T> {
         }
     }
 
+    private Node<T> rebalance(Node<T> imbalancedNode){
+        if(imbalancedNode == null)
+            return null;
+        Node<T> rotateRoot = null;
+        int factor = getBalance(imbalancedNode);
+        if(factor > 1){ // LL or LR
+            if(getBalance(imbalancedNode.left) > 0) //LL
+                rotateRoot = rotateRight(imbalancedNode);
+            else{ //LR, == 0 for delete
+                imbalancedNode.left = rotateLeft(imbalancedNode.left);
+                rotateRoot = rotateRight(imbalancedNode);
+            }
+        }
+        else{ // factor < -1, RR or RL
+            if(getBalance(imbalancedNode.right) < 0) //RR
+                rotateRoot = rotateLeft(imbalancedNode);
+            else{ //RL
+                imbalancedNode.right = rotateRight(imbalancedNode.right);
+                rotateRoot = rotateLeft(imbalancedNode);
+            }
+        }
+        return rotateRoot;
+    }
+
     private void loop_insert(T value){
 
     }
@@ -80,14 +93,58 @@ public class AVLTree<T extends Comparable<T>> extends GenericBinaryTree<T> {
 
     }
 
-//    @Override
-    public void delete(int value) {
-
+    @Override
+    public void delete(T value) {
+        if(root == null)
+            return ;
+        Stack<Node<T>> path = new Stack<>();
+        Node<T> cur = root, pre = null;
+        while(cur != null && cur.value.compareTo(value) != 0){
+            pre = cur;
+            path.add(cur);
+            if(value.compareTo(cur.value) < 0)
+                cur = cur.left;
+            else
+                cur = cur.right;
+        }
+        if(cur == null)
+            return ;
+        if(cur.left == null)
+            deleteNode(pre, cur, cur.right);
+        else if(cur.right == null)
+            deleteNode(pre, cur, cur.left);
+        else{
+            Node<T> successor = cur.right, last = cur;
+            while(successor.left != null){
+                last = successor;
+                successor = successor.left;
+            }
+            cur.value = successor.value;
+            deleteNode(last, successor, successor.right);
+            path.add(cur); // cur.subtree's height may change and needed rebalance
+        }
+        //reBalance
+        Node<T> rotateRoot = null;
+        while(!path.isEmpty()){
+            cur = path.pop();
+            if(Math.abs(getBalance(cur)) > 1)
+                rotateRoot = rebalance(cur);
+            if(!path.isEmpty()){
+                if(cur == path.peek().left)
+                    path.peek().left = rotateRoot;
+                else
+                    path.peek().right = rotateRoot;
+            }
+            else{
+                root = rotateRoot;
+            }
+        }
     }
 
 
-    private Node rotateLeft(Node cur){
-        Node child = cur.left;
+    private Node<T> rotateRight(Node<T> cur){
+        assert cur.left != null;
+        Node<T> child = cur.left;
         cur.left = child.right;
         child.right = cur;
         cur.height = 1 + Math.max(getHeight(cur.left), getHeight(cur.right));
@@ -95,8 +152,9 @@ public class AVLTree<T extends Comparable<T>> extends GenericBinaryTree<T> {
         return child;
     }
 
-    private Node rotateRight(Node cur){
-        Node child = cur.right;
+    private Node<T> rotateLeft(Node<T> cur){
+        assert cur.right != null;
+        Node<T> child = cur.right;
         cur.right = child.left;
         child.left = cur;
         cur.height = 1 + Math.max(getHeight(cur.left), getHeight(cur.right));

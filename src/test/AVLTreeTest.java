@@ -104,7 +104,45 @@ class AVLTreeTest {
 
     @Test
     void delete() {
+        int[] arr = {5, 15, 10, 20, 18};
+        AVLTree avlTree = new AVLTree();
+        for(int i: arr)
+            avlTree.insert(i);
+        avlTree.preorderPrint();
+        avlTree.inorderPrint();
+        int value = 0;
 
+        value = 5;
+        System.out.printf("----------delete %d----------\n", value);
+        avlTree.delete(value);
+        avlTree.preorderPrint();
+        avlTree.inorderPrint();
+
+        value = 15;
+        System.out.printf("----------delete %d----------\n", value);
+        avlTree.delete(value);
+        avlTree.preorderPrint();
+        avlTree.inorderPrint();
+
+    }
+
+    @Test
+    void delete2() {
+        int[] arr = {20, 10, 25, 8, 14, 30, 6};
+        AVLTree<Integer> avlTree = new AVLTree<>();
+        for(int i: arr){
+            System.out.printf("-------------insert %d-------------\n", i);
+            avlTree.insert(i);
+            avlTree.preorderPrint();
+            avlTree.inorderPrint();
+        }
+        int value = 0;
+
+        value = 10;
+        System.out.printf("----------delete %d----------\n", value);
+        avlTree.delete(value);
+        avlTree.preorderPrint();
+        avlTree.inorderPrint();
     }
 
 
