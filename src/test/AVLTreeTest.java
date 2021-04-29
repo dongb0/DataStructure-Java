@@ -81,7 +81,6 @@ class AVLTreeTest {
         assert checkValueEquals(inAns, inList);
     }
 
-
     @Test
     void insert_LR(){
         AVLTree avlTree = new AVLTree();
@@ -167,6 +166,4 @@ class AVLTreeTest {
         avlTree.preorderPrint();
         avlTree.inorderPrint();
     }
-
-
 }
